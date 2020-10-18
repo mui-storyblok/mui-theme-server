@@ -11,7 +11,7 @@ type messageRes struct {
 }
 
 // App ...
-type App struct {
+type App struct {	
 	themeRepo storage.ThemeRepository
 }
 
