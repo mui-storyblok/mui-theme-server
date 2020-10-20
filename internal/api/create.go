@@ -29,11 +29,11 @@ func (a *App) createTheme(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := a.themeStorage.CreateTheme(res.JSONTheme, res.Name)
+	t, err := a.themeStorage.CreateTheme(res.JSONTheme, res.Name)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	render.JSON(w, r, "GOOD JOB")
+	render.JSON(w, r, t)
 }

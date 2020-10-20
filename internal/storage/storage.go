@@ -16,7 +16,7 @@ import (
 type ThemeRepository interface {
 	GetTheme(id string) (Theme, error)
 	GetThemes() ([]Theme, error)
-	CreateTheme(JSONTheme string, name string) error
+	CreateTheme(JSONTheme string, name string) (Theme, error)
 }
 
 // GetTheme returns json_theme from user after look up with email
@@ -72,15 +72,24 @@ func (db *Db) GetThemes() ([]Theme, error) {
 }
 
 // CreateTheme ...
-func (db *Db) CreateTheme(theme string, name string) error {
-	query := "INSERT INTO themes (json_theme, name) VALUES ($1, $2);"
-	fmt.Println(query, theme)
-	_, err := db.Exec(query, theme, name)
+func (db *Db) CreateTheme(theme string, name string) (Theme, error) {
+	query := "INSERT INTO themes (json_theme, name) VALUES ($1, $2) RETURNING *;"
+
+	var t Theme
+	row := db.QueryRow(query, theme, name)
+
+	err := row.Scan(
+		&t.ID,
+		&t.Name,
+		&t.JSONTheme,
+		&t.CreatedAt,
+		&t.UpdatedAt,
+	)
 	if err != nil {
-		return err
+		return t, err
 	}
 
-	return nil
+	return t, nil
 }
 
 // Theme ...
