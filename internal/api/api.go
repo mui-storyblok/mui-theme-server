@@ -6,16 +6,12 @@ import (
 	"github.com/mui-storyblok/mui-theme-server/internal/storage"
 )
 
-type messageRes struct {
-	Message string `json:"message"`
-}
-
-// App ...
+// App defines the aviliable interactions in this app
 type App struct {
 	themeStorage storage.ThemeRepository
 }
 
-// NewApp ...
+// NewApp connects to the DB and sets up our App
 func NewApp() (App, error) {
 	db, err := storage.NewDB()
 	if err != nil {
@@ -26,7 +22,7 @@ func NewApp() (App, error) {
 	}, nil
 }
 
-// Router ...
+// Router - all of the routes dealing with the App
 func Router(r chi.Router, app App) func(r chi.Router) {
 	return func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {

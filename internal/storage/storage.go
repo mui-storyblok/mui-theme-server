@@ -1,5 +1,4 @@
-// Package storage describes the interface for interacting with our datastore, and provides a PostgreSQL
-// implementation for the slice-it-api.
+// Package storage describes the interface for interacting with our datastore, and provides a PostgreSQL implementation
 package storage
 
 import (
@@ -19,7 +18,7 @@ type ThemeRepository interface {
 	CreateTheme(JSONTheme string, name string) (Theme, error)
 }
 
-// GetTheme returns json_theme from user after look up with email
+// GetTheme returns a theme by the given id
 func (db *Db) GetTheme(id string) (Theme, error) {
 	query := "SELECT * FROM themes WHERE id = $1;"
 
@@ -40,7 +39,7 @@ func (db *Db) GetTheme(id string) (Theme, error) {
 	return t, nil
 }
 
-// GetThemes ...
+// GetThemes returns all themes in the theme table
 func (db *Db) GetThemes() ([]Theme, error) {
 	query := "SELECT * FROM themes;"
 	var themes []Theme
@@ -71,7 +70,7 @@ func (db *Db) GetThemes() ([]Theme, error) {
 	return themes, nil
 }
 
-// CreateTheme ...
+// CreateTheme inserts a new theme along with a name into the theme table
 func (db *Db) CreateTheme(theme string, name string) (Theme, error) {
 	query := "INSERT INTO themes (json_theme, name) VALUES ($1, $2) RETURNING *;"
 
@@ -92,7 +91,7 @@ func (db *Db) CreateTheme(theme string, name string) (Theme, error) {
 	return t, nil
 }
 
-// Theme ...
+// Theme struct describes the shape of a theme in the DB
 type Theme struct {
 	ID        int    `json:"id,omitempty"`
 	Name      string `json:"name,omitempty"`

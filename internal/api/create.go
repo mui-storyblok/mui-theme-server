@@ -7,13 +7,14 @@ import (
 	"github.com/go-chi/render"
 )
 
-type createRes struct {
+// createReq is the data we can expect our body sends on request
+type createReq struct {
 	JSONTheme string `json:"jsonTheme"`
 	Name      string `json:"name"`
 }
 
 func (a *App) createTheme(w http.ResponseWriter, r *http.Request) {
-	var res createRes
+	var res createReq
 	if err := json.NewDecoder(r.Body).Decode(&res); err != nil {
 		http.Error(w, "send valid JSON", http.StatusUnprocessableEntity)
 		return
