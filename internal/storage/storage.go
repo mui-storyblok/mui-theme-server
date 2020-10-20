@@ -14,26 +14,30 @@ import (
 // ThemeRepository describes the interface for interacting with our datastore. This can viewed
 // like a plug in adapter, making testing and/or switching datastores much more trivial.
 type ThemeRepository interface {
-	GetTheme(id int) (string, error)
-	GetThemes() (string, error)
-	CreateTheme(token string) error
+	GetTheme(id string) (Theme, error)
+	GetThemes() ([]Theme, error)
+	CreateTheme(JSONTheme string, name string) error
 }
 
 // GetTheme returns json_theme from user after look up with email
-func (db *Db) GetTheme(id int) (string, error) {
-	query := "SELECT json_theme FROM themes WHERE id = $1;"
+func (db *Db) GetTheme(id string) (Theme, error) {
+	query := "SELECT * FROM themes WHERE id = $1;"
 
-	var theme Theme
+	var t Theme
 	row := db.QueryRow(query, id)
-	fmt.Println(row)
-	if err := row.Scan(&theme.JsonTheme); err != nil {
-		fmt.Println(err)
 
-		return "", err
+	err := row.Scan(
+		&t.ID,
+		&t.Name,
+		&t.JSONTheme,
+		&t.CreatedAt,
+		&t.UpdatedAt,
+	)
+	if err != nil {
+		return t, err
 	}
 
-	fmt.Println(theme)
-	return theme.JsonTheme, nil
+	return t, nil
 }
 
 // GetThemes ...
@@ -52,7 +56,8 @@ func (db *Db) GetThemes() ([]Theme, error) {
 
 		err := rows.Scan(
 			&t.ID,
-			&t.JsonTheme,
+			&t.Name,
+			&t.JSONTheme,
 			&t.CreatedAt,
 			&t.UpdatedAt,
 		)
@@ -67,10 +72,10 @@ func (db *Db) GetThemes() ([]Theme, error) {
 }
 
 // CreateTheme ...
-func (db *Db) CreateTheme(theme string) error {
-	query := "INSERT INTO themes(json_theme) VALUES ($1)"
-
-	_, err := db.Exec(query, theme)
+func (db *Db) CreateTheme(theme string, name string) error {
+	query := "INSERT INTO themes (json_theme, name) VALUES ($1, $2);"
+	fmt.Println(query, theme)
+	_, err := db.Exec(query, theme, name)
 	if err != nil {
 		return err
 	}
@@ -81,7 +86,8 @@ func (db *Db) CreateTheme(theme string) error {
 // Theme ...
 type Theme struct {
 	ID        int    `json:"id,omitempty"`
-	JsonTheme string `json:"json_theme,omitempty"`
+	Name      string `json:"name,omitempty"`
+	JSONTheme string `json:"json_theme,omitempty"`
 	CreatedAt string `json:"created_at,omitempty"`
 	UpdatedAt string `json:"updated_at,omitempty"`
 }
@@ -95,11 +101,10 @@ type Db struct {
 func NewDB() (*Db, error) {
 
 	connStr := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		"host=%s port=%s user=%s dbname=%s sslmode=%s",
 		os.Getenv("MUI_THEME_ENV_API_DB_HOST"),
 		os.Getenv("MUI_THEME_ENV_API_DB_PORT"),
 		os.Getenv("MUI_THEME_ENV_API_DB_USER"),
-		os.Getenv("MUI_THEME_ENV_API_DB_PASSWORD"),
 		os.Getenv("MUI_THEME_ENV_API_DB_NAME"),
 		os.Getenv("MUI_THEME_ENV_API_SSL_MODE"),
 	)

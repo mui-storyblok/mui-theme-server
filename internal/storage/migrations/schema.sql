@@ -1,8 +1,9 @@
 -- Create table for storing themes --
-DROP TABLE IF EXISTS theme;
+DROP TABLE IF EXISTS themes;
 
 CREATE TABLE IF NOT EXISTS themes (
   id SERIAL NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL,
   json_theme JSON NOT NULL DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
