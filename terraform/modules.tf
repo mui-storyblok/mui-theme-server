@@ -22,3 +22,28 @@ terraform {
     region = "us-west-2"
   }
 }
+
+################################################################################
+############################### NETWORK ########################################
+################################################################################
+
+module "network" {
+  source   = "./modules/network"
+  az_count = 3
+  vpc_name = "mui-theme-vpc"
+}
+
+data "aws_subnet_ids" "public_subnets" {
+  vpc_id = module.network.vpc_id
+  tags = {
+    Tier = "Public"
+  }
+}
+
+data "aws_subnet_ids" "private_subnets" {
+  vpc_id = module.network.vpc_id
+
+  tags = {
+    Tier = "Private"
+  }
+}
