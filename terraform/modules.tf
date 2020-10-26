@@ -139,3 +139,61 @@ module "logs" {
   cloudwatch_group_tag_name = "mui-theme-server-log-group"
   cloudwatch_stream_name    = "mui-theme-server-log-stream"
 }
+
+
+################################################################################
+#################################### aws_instance EC2  ##############################
+################################################################################
+
+module "aws_instance_security" {
+  source              = "./modules/security"
+  name                = "aws-instance-security-group"
+  vpc_id              = module.network.vpc_id
+  protocol            = "tcp"
+  ingress_from_port   = 22
+  ingress_to_port     = 22
+  ingress_cidr_blocks = ["0.0.0.0/0"]
+  egress_from_port    = 0
+  egress_to_port      = 0
+  egress_cidr_blocks  = ["0.0.0.0/0"]
+}
+
+module "aws_instance" {
+  source           = "./modules/aws_instance"
+  key_name         = "mui-theme-server"
+  image_ami        = var.image_ami
+  instance_type    = "t2.micro"
+  security_groups  = [module.aws_instance_security.aws_security_group_id]
+  subnet           = element(tolist(data.aws_subnet_ids.public_subnets.ids), 0)
+  ec2_name         = "aws_instance"
+}
+
+################################################################################
+#################################### RDS  ######################################
+################################################################################
+
+module "rds_security" {
+  source              = "./modules/security"
+  name                = "rds-ecs-security-group-mui-theme-server"
+  vpc_id              = module.network.vpc_id
+  protocol            = "tcp"
+  ingress_from_port   = 5432
+  ingress_to_port     = 5432
+  ingress_cidr_blocks = []
+  egress_from_port    = 0
+  egress_to_port      = 0
+  egress_cidr_blocks  = ["0.0.0.0/0"]
+  security_groups     = [
+                          module.ecs_security.aws_security_group_id, 
+                          module.aws_instance_security.aws_security_group_id, 
+                        ]
+}
+
+module "rds" {
+  source                   = "./modules/rds"
+  name                     = "db-mui-theme-servers"
+  snapshot_identifier_name = var.db_snapshot
+  public_subnets_ids       = data.aws_subnet_ids.public_subnets.ids
+  vpc_security_group_ids   = [module.rds_security.aws_security_group_id]
+  instance_class           = "db.t2.micro"
+}
