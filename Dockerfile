@@ -14,6 +14,6 @@ EXPOSE 3333
 # Run the server binary
 ENTRYPOINT ["/go/bin/server"]
 
-# docker build -f Dockerfile -t 413774799288.dkr.ecr.us-west-2.amazonaws.com/mui-theme-server:latest .
+# docker build -t 413774799288.dkr.ecr.us-west-2.amazonaws.com/mui-theme-server:latest .
 # docker tag 413774799288.dkr.ecr.us-west-2.amazonaws.com/mui-theme-server:latest 413774799288.dkr.ecr.us-west-2.amazonaws.com/mui-theme-server:latest
 # docker push 413774799288.dkr.ecr.us-west-2.amazonaws.com/mui-theme-server:latest
