@@ -22,3 +22,8 @@ variable "instance_type" {
   description = "size of ec2"
   default = "t2.micro"
 }
+
+variable "user_data" {
+  description = ""
+  
+}

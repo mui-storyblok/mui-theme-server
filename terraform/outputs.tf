@@ -1,3 +1,3 @@
-output "alb_hostname" {
-  value = module.alb.alb_hostname
+output "ec2_id" {
+  value = module.aws_instance.id
 }
