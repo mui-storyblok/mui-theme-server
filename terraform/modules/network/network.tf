@@ -5,7 +5,7 @@ resource "aws_vpc" "main" {
   cidr_block = "172.31.0.0/16"
 
     tags = {
-    Name = var.vpc_name
+    Name = "${var.name}-vpc"
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_subnet" "public" {
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
     tags = {
-      Name = "review-env-gw"
+      Name = "${var.name}-gw"
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_eip" "eip" {
   vpc        = true
   depends_on = [aws_internet_gateway.gw]
   tags = {
-      Name = "review-env"
+      Name = var.name
   }
 }
 
@@ -91,7 +91,7 @@ resource "aws_route_table" "private" {
     }
 
     tags = {
-        Name = "review-env-private-round-table"
+        Name = "${var.name}-private-round-table"
     }
 }
 

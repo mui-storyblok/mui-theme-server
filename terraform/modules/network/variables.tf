@@ -8,6 +8,6 @@ variable "nat_gateway_epi" {
   default     = 1
 }
 
-variable "vpc_name" {
-  description = "name of your vpc"
+variable "name" {
+  description = "name of your project"
 }

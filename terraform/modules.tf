@@ -30,7 +30,7 @@ terraform {
 module "network" {
   source   = "./modules/network"
   az_count = 3
-  vpc_name = "mui-theme-vpc"
+  name = "mui-theme-server"
 }
 
 data "aws_subnet_ids" "public_subnets" {
