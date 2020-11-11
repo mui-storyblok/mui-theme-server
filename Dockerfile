@@ -25,7 +25,7 @@ COPY . .
 # Using go get.
 RUN go get -d -v
 # Build the binary.
-RUN go build -o /go/bin/server
+RUN GOOS=linux GOARCH=amd64 go build -o /go/bin/server
 ############################
 # STEP 2 build a small image
 ############################
