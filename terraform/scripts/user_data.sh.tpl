@@ -72,8 +72,8 @@ http {
         }
     }
 }
-" > /ect/nginx/nginx.conf
+" > /etc/nginx/nginx.conf
 
-systemctl reload nginx
+systemctl restart nginx
 
 echo yes | rm /var/lib/cloud/instances/*/sem/config_scripts_user
