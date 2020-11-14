@@ -109,13 +109,12 @@ type Db struct {
 func NewDB() (*Db, error) {
 
 	connStr := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		os.Getenv("MUI_THEME_ENV_API_DB_HOST"),
-		os.Getenv("MUI_THEME_ENV_API_DB_PORT"),
-		os.Getenv("MUI_THEME_ENV_API_DB_USER"),
-		os.Getenv("MUI_THEME_ENV_API_DB_PASSWORD"),
-		os.Getenv("MUI_THEME_ENV_API_DB_NAME"),
-		os.Getenv("MUI_THEME_ENV_API_SSL_MODE"),
+		"host=%s port=%s user=%s password=%s dbname=%s",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
 	)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
