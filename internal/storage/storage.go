@@ -109,10 +109,11 @@ type Db struct {
 func NewDB() (*Db, error) {
 
 	connStr := fmt.Sprintf(
-		"host=%s port=%s user=%s dbname=%s sslmode=%s",
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		os.Getenv("MUI_THEME_ENV_API_DB_HOST"),
 		os.Getenv("MUI_THEME_ENV_API_DB_PORT"),
 		os.Getenv("MUI_THEME_ENV_API_DB_USER"),
+		os.Getenv("MUI_THEME_ENV_API_DB_PASSWORD"),
 		os.Getenv("MUI_THEME_ENV_API_DB_NAME"),
 		os.Getenv("MUI_THEME_ENV_API_SSL_MODE"),
 	)
