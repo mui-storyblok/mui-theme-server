@@ -1,6 +1,7 @@
 #!/bin/bash
 # set -euo pipefail
 # IFS=$'\n\t'
+#docker run $REMOTE/$REPO:latest
 
 REMOTE=413774799288.dkr.ecr.us-west-2.amazonaws.com
 REPO=mui-theme-server

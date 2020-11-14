@@ -5,7 +5,7 @@ variable "image_hash" {
 
 variable "db_snapshot" {
   description = "db shapshot name"
-  default     = "mui-theme-db-snapshot"
+  default     = "mui-theme-db"
 }
 
 variable "image_ami" {
