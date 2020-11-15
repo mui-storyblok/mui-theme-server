@@ -117,6 +117,7 @@ func NewDB() (*Db, error) {
 		os.Getenv("MUI_THEME_ENV_API_DB_NAME"),
 		os.Getenv("MUI_THEME_ENV_API_SSL_MODE"),
 	)
+	fmt.Println(connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err
