@@ -19,6 +19,7 @@ jobs:
           command: 'echo "Starting Docker"'
       - run: sh ./.circleci/scripts/build.sh
       - run: sh ./.circleci/scripts/push.sh
+      - run: sh ./.circleci/scripts/run_terraform.sh
       - run: sh ./.circleci/scripts/reboot_ec2.sh
 orbs:
   aws-cli: circleci/aws-cli@1.3.0
