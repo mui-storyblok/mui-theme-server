@@ -102,7 +102,10 @@ module "aws_instance" {
   key_name         = "mui-theme-server"
   image_ami        = var.image_ami
   instance_type    = "t2.micro"
-  security_groups  = [module.aws_instance_security.aws_security_group_id]
+  security_groups  = [
+                    module.aws_instance_security.aws_security_group_id,
+                    module.aws_instance_http_security.aws_security_group_id
+                    ]
   subnet           = element(tolist(data.aws_subnet_ids.public_subnets.ids), 0)
   ec2_name         = "aws_instance"
   user_data        = data.template_file.app.rendered
@@ -125,6 +128,7 @@ module "rds_security" {
   egress_cidr_blocks  = ["0.0.0.0/0"]
   security_groups     = [
                           module.aws_instance_security.aws_security_group_id, 
+                          module.aws_instance_http_security.aws_security_group_id
                         ]
 }
 
