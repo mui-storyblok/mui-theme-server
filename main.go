@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -61,6 +62,6 @@ func main() {
 		log.Panicf("Error Log: %s\n", err.Error()) // panic if there is an error
 	}
 
-	log.Println("Serving application on PORT :", ":3333")
-	log.Fatal(http.ListenAndServe(":"+"3333", r))
+	log.Printf("Serving application on PORT : %s", os.Getenv("PORT"))
+	log.Fatal(http.ListenAndServe(":" + os.Getenv("PORT"), r))
 }
