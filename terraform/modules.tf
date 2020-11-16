@@ -73,7 +73,6 @@ module "aws_instance_security" {
   egress_cidr_blocks  = ["0.0.0.0/0"]
 }
 
-
 module "aws_instance_http_security" {
   source              = "./modules/security"
   name                = "aws-instance-http-security-group"
@@ -92,8 +91,8 @@ data "template_file" "app" {
 
   vars = {
     aws_access_key_id      = var.aws_access_key_id
-    aws_secret_access_key    = var.aws_secret_access_key
-    aws_region = var.aws_region
+    aws_secret_access_key  = var.aws_secret_access_key
+    aws_region             = var.aws_region
   }
 }
 
