@@ -49,7 +49,7 @@ data "aws_subnet_ids" "private_subnets" {
 }
 
 ###############################################################################
-############################## AWS ECR  ###################################
+############################## AWS ECR  #######################################
 ###############################################################################
 
 resource "aws_ecr_repository" "image" {
@@ -57,7 +57,7 @@ resource "aws_ecr_repository" "image" {
 }
 
 ################################################################################
-#################################### aws_instance EC2  ##############################
+#################################### aws_instance EC2  #########################
 ################################################################################
 
 module "aws_instance_security" {
@@ -72,7 +72,6 @@ module "aws_instance_security" {
   egress_to_port      = 0
   egress_cidr_blocks  = ["0.0.0.0/0"]
 }
-
 
 module "aws_instance_http_security" {
   source              = "./modules/security"
@@ -92,8 +91,8 @@ data "template_file" "app" {
 
   vars = {
     aws_access_key_id      = var.aws_access_key_id
-    aws_secret_access_key    = var.aws_secret_access_key
-    aws_region = var.aws_region
+    aws_secret_access_key  = var.aws_secret_access_key
+    aws_region             = var.aws_region
   }
 }
 
