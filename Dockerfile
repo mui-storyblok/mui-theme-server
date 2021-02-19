@@ -16,6 +16,7 @@ ENV MUI_THEME_ENV_API_DB_PASSWORD=$MUI_THEME_ENV_API_DB_PASSWORD
 
 # Git is required for fetching the dependencies.
 RUN apk update && apk add --no-cache git
+RUN apk add postgresql-client
 WORKDIR $GOPATH/src/mui-storyblok/mui-theme-server/
 COPY . .
 # Fetch dependencies
